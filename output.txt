@@ -1,5 +1,30 @@
 Tokens: 
+LINE: 3 * 5 - 2 / x 
+
+3 : NUMBER
+* : SYMBOL
+5 : NUMBER
+- : SYMBOL
+2 : NUMBER
+/ : SYMBOL
+x : IDENTIFIER
+
+
+AST: 
+LINE: 3 * 5 - 2 / x 
+
+-: SYMBOL
+	*: SYMBOL
+		3: NUMBER
+		5: NUMBER
+	/: SYMBOL
+		2: NUMBER
+		x: IDENTIFIER
+
+
+Tokens: 
 LINE: 3 * 5 + 2 / x *
+
 3 : NUMBER
 * : SYMBOL
 5 : NUMBER
@@ -9,6 +34,31 @@ LINE: 3 * 5 + 2 / x *
 x : IDENTIFIER
 * : SYMBOL
 
+
 AST: 
 LINE: 3 * 5 + 2 / x *
+
 Error parsing token: end of tokens; piece: nothing is on the right side of *
+
+Tokens: 
+LINE: 3 * 5 + 2 / x 
+3 : NUMBER
+* : SYMBOL
+5 : NUMBER
++ : SYMBOL
+2 : NUMBER
+/ : SYMBOL
+x : IDENTIFIER
+
+
+AST: 
+LINE: 3 * 5 + 2 / x 
++: SYMBOL
+	*: SYMBOL
+		3: NUMBER
+		5: NUMBER
+	/: SYMBOL
+		2: NUMBER
+		x: IDENTIFIER
+
+

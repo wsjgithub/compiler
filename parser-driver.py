@@ -23,8 +23,8 @@ def run():
     while True:
         line = inputFile.readline()
         if line:
-            scanned = 'Tokens: \n' + scannerRun(line)
-            parsed = 'AST: \n' + parserRun(line)
+            scanned = 'Tokens: \n' + scannerRun(line) + '\n'
+            parsed = 'AST: \n' + parserRun(line) + '\n'
             outputFile.write(scanned + parsed)
         else:
             break
