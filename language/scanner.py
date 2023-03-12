@@ -2,13 +2,13 @@
 # 1.2
 
 import re
-from .constants import MARKS
+from .constants import MARKS, SYMBOLS, KEYWORDS
 
 class Scanner:
     def __init__(self):
         self.MARKS = MARKS
-        self.symbols = ("+", "-", "*", "/", "(", ")",":=", ";")
-        self.keywords = ("if", "then", "else", "endif", "while", "do", "endwhile", "skip")
+        self.symbols = SYMBOLS
+        self.keywords = KEYWORDS
         self.tokenTypes = ['keyword', 'identifier', 'number', 'symbol',] 
         self.patterns = {
             "identifier":"([a-z]|[A-Z])([a-z]|[A-Z]|[0-9])*",

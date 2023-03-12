@@ -12,7 +12,6 @@ def parserRun(line):
         try:
             output  += Parser(tokens).parse().preorderOutput()
         except Exception as e:
-            print('catch', e)
             return output + str(e)
         output += '\n'
         return output

@@ -5,3 +5,7 @@ MARKS = {
             'keyword':'KEYWORD',
             'error':'ERROR'
         }
+
+SYMBOLS = ("+", "-", "*", "/", "(", ")",":=", ";")
+
+KEYWORDS = ("if", "then", "else", "endif", "while", "do", "endwhile", "skip")

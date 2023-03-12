@@ -1,5 +1,5 @@
 from .asTree import Node
-from .utils import serializeToken
+from .utils import raiseException
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
@@ -9,9 +9,8 @@ class Parser:
         try:
             return self.expression()
         except Exception as e:
-            print('parse exception', e)
             curr = self.currentToken()
-            raise Exception('Error parsing token: ' + (str(curr) if curr else 'end of tokens'))
+            raiseException('Error parsing token: ' + (str(curr) if curr else 'end of tokens') + "; " + str(e))
     
     def expression(self):
         left = self.term()
@@ -20,15 +19,11 @@ class Parser:
             self.consume()
             right = self.term()
             if not right:
-                err = "Expression: nothing is on the right side of +"
-                print(err)
-                raise Exception ("err")
+                raiseException("Expression: nothing is on the right side of +")
             left = Node(*curr, left, right)  
             curr = self.currentToken() 
         if curr:
-            err = 'Expression: there are unparsed tokens starting from: '
-            print(err, curr)  
-            raise Exception(err, str(curr))
+            raiseException('Expression: there are unparsed tokens starting from: '+ str(curr))
         return left
         
     def currentToken(self):
@@ -40,7 +35,10 @@ class Parser:
         curr = self.currentToken()
         while curr and curr[0] == '-':
             self.consume()
-            left = Node(*curr, left, self.factor())
+            right = self.factor()
+            if not right:
+                raiseException("Term: nothing is on the right side of -")
+            left = Node(*curr, left, right)
             curr = self.currentToken()
         return left
     
@@ -49,7 +47,10 @@ class Parser:
         curr = self.currentToken()
         while curr and curr[0] == '/':
             self.consume()
-            left = Node(*curr, left, self.piece())
+            right = self.piece()
+            if not right:
+                raiseException("Term: nothing is on the right side of /")
+            left = Node(*curr, left, right)
             curr = self.currentToken()
         return left
     
@@ -58,7 +59,10 @@ class Parser:
         curr = self.currentToken()
         while curr and curr[0] == '*':
             self.consume()
-            left = Node(*curr, left, self.element())
+            right = self.element()
+            if not right:
+                raiseException("piece: nothing is on the right side of *")
+            left = Node(*curr, left, right)
             curr = self.currentToken()
         return left
     
@@ -66,28 +70,26 @@ class Parser:
         curr = self.currentToken()
         if curr:
             if curr[1] == 'ERROR':
-                raise Exception("An error token was found. ")
+                raiseException("Element: An error token was found. ")
             if curr[0] == "(":
                 self.consume()
                 node = self.expression()
                 if not node:
-                    print("Nothing follows (.")
-                    raise Exception("Nothing follows (.")
+                    raiseException("Element: Nothing follows (.")
                 curr = self.currentToken()
                 if curr and curr[0] == ')':
                     self.consume()
                     return node
                 else:
-                    print("Right parenthesis not found.")
-                    raise Exception("Right parenthesis not found.")
+                    raiseException("Element: Right parenthesis was not found.")
             elif curr[1] in ("NUMBER", "IDENTIFIER"):
                 self.consume()
                 return Node(*curr)
             else:
-                print("Error while parsing element.")
-                raise Exception('Error while parsing element.')
+                raiseException("Element: Token is not valid.")
     
     def consume(self):
         self.cursor += 1
 
-
+if __name__ == 'main':
+    Parser([('Error', 'ERROR')]).parse()
