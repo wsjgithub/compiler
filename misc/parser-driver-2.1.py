@@ -20,12 +20,14 @@ def run():
     except FileNotFoundError as e:
         print(e)
         return
-    line = inputFile.read()
-    if line:
-        scanned = 'Tokens: \n' + scannerRun(line) + '\n'
-        parsed = 'AST: \n' + parserRun(line) + '\n'
-        outputFile.write(scanned + parsed)
-        
+    while True:
+        line = inputFile.readline()
+        if line:
+            scanned = 'Tokens: \n' + scannerRun(line) + '\n'
+            parsed = 'AST: \n' + parserRun(line) + '\n'
+            outputFile.write(scanned + parsed)
+        else:
+            break
     inputFile.close()
     outputFile.close()
 

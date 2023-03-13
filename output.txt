@@ -1,64 +1,80 @@
 Tokens: 
-LINE: 3 * 5 - 2 / x 
+LINE: z := 0;
+x := 10;
+y := 0;
+while x-y do
+        z := z + y;
+y := y + 1
+endwhile
 
-3 : NUMBER
-* : SYMBOL
-5 : NUMBER
+
+z : IDENTIFIER
+:= : SYMBOL
+0 : NUMBER
+; : SYMBOL
+x : IDENTIFIER
+:= : SYMBOL
+10 : NUMBER
+; : SYMBOL
+y : IDENTIFIER
+:= : SYMBOL
+0 : NUMBER
+; : SYMBOL
+while : KEYWORD
+x : IDENTIFIER
 - : SYMBOL
-2 : NUMBER
-/ : SYMBOL
-x : IDENTIFIER
-
-
-AST: 
-LINE: 3 * 5 - 2 / x 
-
--: SYMBOL
-	*: SYMBOL
-		3: NUMBER
-		5: NUMBER
-	/: SYMBOL
-		2: NUMBER
-		x: IDENTIFIER
-
-
-Tokens: 
-LINE: 3 * 5 + 2 / x *
-
-3 : NUMBER
-* : SYMBOL
-5 : NUMBER
+y : IDENTIFIER
+do : KEYWORD
+z : IDENTIFIER
+:= : SYMBOL
+z : IDENTIFIER
 + : SYMBOL
-2 : NUMBER
-/ : SYMBOL
-x : IDENTIFIER
-* : SYMBOL
-
-
-AST: 
-LINE: 3 * 5 + 2 / x *
-
-Error parsing token: end of tokens; piece: nothing is on the right side of *
-
-Tokens: 
-LINE: 3 * 5 + 2 / x 
-3 : NUMBER
-* : SYMBOL
-5 : NUMBER
+y : IDENTIFIER
+; : SYMBOL
+y : IDENTIFIER
+:= : SYMBOL
+y : IDENTIFIER
 + : SYMBOL
-2 : NUMBER
-/ : SYMBOL
-x : IDENTIFIER
+1 : NUMBER
+endwhile : KEYWORD
 
 
 AST: 
-LINE: 3 * 5 + 2 / x 
-+: SYMBOL
-	*: SYMBOL
-		3: NUMBER
-		5: NUMBER
-	/: SYMBOL
-		2: NUMBER
-		x: IDENTIFIER
+LINE: z := 0;
+x := 10;
+y := 0;
+while x-y do
+        z := z + y;
+y := y + 1
+endwhile
+
+
+;: SYMBOL
+	;: SYMBOL
+		;: SYMBOL
+			:=: SYMBOL
+				z: IDENTIFIER
+				0: NUMBER
+			:=: SYMBOL
+				x: IDENTIFIER
+				10: NUMBER
+		:=: SYMBOL
+			y: IDENTIFIER
+			0: NUMBER
+	while: KEYWORD
+		-: SYMBOL
+			x: IDENTIFIER
+			y: IDENTIFIER
+		;: SYMBOL
+			:=: SYMBOL
+				z: IDENTIFIER
+				+: SYMBOL
+					z: IDENTIFIER
+					y: IDENTIFIER
+			:=: SYMBOL
+				y: IDENTIFIER
+				+: SYMBOL
+					y: IDENTIFIER
+					1: NUMBER
 
 
