@@ -7,64 +7,127 @@ class Parser:
 
     def parse(self):
         try:
-            return self.expression()
-        except Exception as e:
             curr = self.currentToken()
+            node = self.statement()
+        except Exception as e:
             raiseException('Error parsing token: ' + (str(curr) if curr else 'end of tokens') + "; " + str(e))
-    
-    def expression(self):
-        left = self.term()
         curr = self.currentToken()
-        while curr and curr[0] == '+': 
-            self.consume()
-            right = self.term()
-            if not right:
-                raiseException("Expression: nothing is on the right side of +")
-            left = Node(*curr, left, right)  
-            curr = self.currentToken() 
         if curr:
-            raiseException('Expression: there are unparsed tokens starting from: '+ str(curr))
+            raiseException('Error parsing token: ' + (str(curr) if curr else 'end of tokens') + "; " + 'There are unparsed tokens.')
+        return node
+    
+    def binaryOperator(self, nextOpt, sign):
+        left = getattr(self, nextOpt)()
+        curr = self.currentToken()
+        while curr and curr[0] == sign:
+            self.consume()
+            right = getattr(self, nextOpt)()
+            if not right:
+                raiseException("Expression: nothing is on the right side of " + sign)
+            left = Node(*curr, left, right)
+            curr = self.currentToken() 
         return left
+    
+    def statement(self):
+        return self.binaryOperator('baseStatement', ';')
+    
+    def baseStatement(self):
+        node = self.assignment()
+        if not node:
+            node = self.ifStatement()
+        if not node:
+            node = self.whileStatement()
+        if not node:
+            curr = self.currentToken()
+            if curr and curr[1] == 'KEYWORD' and curr[0] == 'skip':
+                node = Node(*curr)
+                self.consume()
+            else:
+                raiseException("baseStatement: invalid base statement.")
+        return node
+    
+    def assignment(self):
+        curr = self.currentToken()
+        if curr and curr[1] == 'IDENTIFIER':
+            left = Node(*self.currentToken())
+            self.consume()
+            if self.currentToken()[0] == ':=':
+                sign = self.currentToken()
+                self.consume()
+                right = self.expression()
+                if right:
+                    return Node(*sign, left, right)
+                else:
+                    raiseException('Assignment: there is nothing on the right side of :=')
+            else:
+                raiseException('Assignment: Failed to match :=')
+
+    def whileStatement(self):
+        curr = self.currentToken()
+        if curr and curr[1] == 'KEYWORD' and curr[0] == 'while':
+            self.consume()
+            left = self.expression()
+            if not left:
+                raiseException("whileStatement: while expression is missing.")
+            curr = self.currentToken()
+            if curr and curr[1] == 'KEYWORD' and curr[0] == 'do':
+                self.consume()
+                middle = self.statement()
+                if not middle:
+                    raiseException("whileStatement: do statement is missing.")
+                curr = self.currentToken()
+                print('while', curr)
+                if curr and curr[1] == 'KEYWORD' and curr[0] == 'endwhile':
+                    self.consume()
+                    node = Node('while','KEYWORD', left, middle)
+                    return node
+                else:
+                    raiseException("whileStatement: keyword endwhile is missing.")
+            else:
+                raiseException("ifStatement: keyword do is missing.")
         
-    def currentToken(self):
-        if self.cursor < len(self.tokens):
-            return self.tokens[self.cursor]
+    def ifStatement(self):
+        curr = self.currentToken()
+        if curr and curr[1] == 'KEYWORD' and curr[0] == 'if':
+            self.consume()
+            left = self.expression()
+            if not left:
+                raiseException("ifStatement: if expression is missing.")
+            curr = self.currentToken()
+            if curr and curr[1] == 'KEYWORD' and curr[0] == 'then':
+                self.consume()
+                middle = self.statement()
+                if not middle:
+                    raiseException("ifStatement: then statement is missing.")
+                curr = self.currentToken()
+                if curr and curr[1] == 'KEYWORD' and curr[0] == 'else':
+                    self.consume()
+                    right = self.statement()
+                    if not right:
+                        raiseException("ifStatement: else statement is missing.")
+                    curr = self.currentToken()
+                    if curr and curr[1] == 'KEYWORD' and curr[0] == 'endif':
+                        self.consume()
+                        node = Node('if','KEYWORD', left, middle, right)
+                        return node
+                    else:
+                        raiseException("ifStatement: keyword endif is missing.")
+                else:
+                    raiseException("ifStatement: keyword else is missing.")
+            else:
+                raiseException("ifStatement: keyword then is missing.")
+        
+    def expression(self):
+        return self.binaryOperator('term', '+')
     
     def term(self):
-        left = self.factor()
-        curr = self.currentToken()
-        while curr and curr[0] == '-':
-            self.consume()
-            right = self.factor()
-            if not right:
-                raiseException("Term: nothing is on the right side of -")
-            left = Node(*curr, left, right)
-            curr = self.currentToken()
-        return left
+        return self.binaryOperator('factor','-')
     
     def factor(self):
-        left = self.piece()
-        curr = self.currentToken()
-        while curr and curr[0] == '/':
-            self.consume()
-            right = self.piece()
-            if not right:
-                raiseException("Term: nothing is on the right side of /")
-            left = Node(*curr, left, right)
-            curr = self.currentToken()
-        return left
+        return self.binaryOperator('piece', '/')
     
     def piece(self):
-        left = self.element()
-        curr = self.currentToken()
-        while curr and curr[0] == '*':
-            self.consume()
-            right = self.element()
-            if not right:
-                raiseException("piece: nothing is on the right side of *")
-            left = Node(*curr, left, right)
-            curr = self.currentToken()
-        return left
+        return self.binaryOperator('element', '*')
     
     def element(self):
         curr = self.currentToken()
@@ -90,6 +153,7 @@ class Parser:
     
     def consume(self):
         self.cursor += 1
-
-if __name__ == 'main':
-    Parser([('Error', 'ERROR')]).parse()
+    
+    def currentToken(self):
+        if self.cursor < len(self.tokens):
+            return self.tokens[self.cursor]
