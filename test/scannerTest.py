@@ -27,16 +27,30 @@ from language.utils import serializeToken
 #     outputFile.close()
 #     print('Scanning finished')
 
+# def scannerRun(line):
+#     print('scanning ',line)
+#     scanner = Scanner()
+#     try:
+#         tokens = scanner.scan(line)
+#         output = ''
+#         output += ("LINE: " + line+'\n')
+#         for token in tokens:
+#             output += (serializeToken(token)+'\n')
+#         output += '\n'
+#         return output
+#     except Exception as e:
+#         print("Error: ", e)
+
+
+
 def scannerRun(line):
     print('scanning ',line)
     scanner = Scanner()
     try:
         tokens = scanner.scan(line)
         output = ''
-        output += ("LINE: " + line+'\n')
         for token in tokens:
             output += (serializeToken(token)+'\n')
-        output += '\n'
-        return output
+        return (tokens, output)
     except Exception as e:
         print("Error: ", e)
