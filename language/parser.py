@@ -22,8 +22,6 @@ class Parser:
                 raiseException("Expression: nothing is on the right side of +")
             left = Node(*curr, left, right)  
             curr = self.currentToken() 
-        if curr:
-            raiseException('Expression: there are unparsed tokens starting from: '+ str(curr))
         return left
         
     def currentToken(self):
@@ -81,7 +79,7 @@ class Parser:
                     self.consume()
                     return node
                 else:
-                    raiseException("Element: Right parenthesis was not found.")
+                    raiseException("Element: Right parenthesis was not found.")    
             elif curr[1] in ("NUMBER", "IDENTIFIER"):
                 self.consume()
                 return Node(*curr)
