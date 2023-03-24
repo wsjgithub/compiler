@@ -37,6 +37,6 @@ def scannerRun(line):
         for token in tokens:
             output += (serializeToken(token)+'\n')
         output += '\n'
-        return output
+        return output, tokens
     except Exception as e:
         print("Error: ", e)

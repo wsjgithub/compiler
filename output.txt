@@ -1,6 +1,13 @@
 Tokens: 
 LINE: z := 0;
-x := 10;
+
+z : IDENTIFIER
+:= : SYMBOL
+0 : NUMBER
+; : SYMBOL
+
+
+LINE: x := 10;
 y := 0;
 while x-y do
         z := z + y;
@@ -8,10 +15,8 @@ y := y + 1
 endwhile
 
 
-z : IDENTIFIER
-:= : SYMBOL
-0 : NUMBER
-; : SYMBOL
+
+
 x : IDENTIFIER
 := : SYMBOL
 10 : NUMBER
@@ -40,15 +45,6 @@ endwhile : KEYWORD
 
 
 AST: 
-LINE: z := 0;
-x := 10;
-y := 0;
-while x-y do
-        z := z + y;
-y := y + 1
-endwhile
-
-
 ;: SYMBOL
 	;: SYMBOL
 		;: SYMBOL
