@@ -19,7 +19,13 @@ class Node:
         self.left and self.left.preorder(indent + 1)
         self.middle and self.middle.preorder(indent + 1)
         self. right and self.right.preorder(indent + 1)
-
+    
+    def preorderStack(self, stack):
+        stack.append(self)
+        self.left and self.left.preorderStack(stack)
+        self.middle and self.middle.preorderStack(stack)
+        self. right and self.right.preorderStack(stack)
+        
     def preorderOutput(self, indent = 0):
         output = self.print(indent, True)
         if self.left:
@@ -35,6 +41,9 @@ class Node:
 
     def setRight(self, right):
         self.right = right
+    
+    def __str__(self):
+        return self.value
 
 class Tree:
     def __init__(self, root):

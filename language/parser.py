@@ -16,6 +16,10 @@ class Parser:
             raiseException('Error parsing token: ' + (str(curr) if curr else 'end of tokens') + "; " + 'There are unparsed tokens.')
         return node
     
+    def parseExpression(self):
+        node = self.expression()
+        return node
+    
     def binaryOperator(self, nextOpt, sign):
         left = getattr(self, nextOpt)()
         curr = self.currentToken()

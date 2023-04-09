@@ -27,12 +27,7 @@ def run():
         lineOutput, lineTokens= scannerRun(line)
         output += lineOutput + '\n'
         tokens += lineTokens
-        # output += 'AST: \n' + parserRun(line) + '\n'
         line = inputFile.read()
-    # if line:
-    #     scanned = 'Tokens: \n' + scannerRun(line) + '\n'
-    #     parsed = 'AST: \n' + parserRun(line) + '\n'
-    #     outputFile.write(scanned + parsed)
     output += 'AST: \n' + parserRun(tokens) + '\n'
     outputFile.write(output)  
     inputFile.close()
