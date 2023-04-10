@@ -1,12 +1,20 @@
-from language.scanner import Scanner
-from language.parser import Parser
+
 from language.evaluator import Evaluator
-def evaluatorRun(line):
-    print('evaluator test')
-    tokens = Scanner().scan(line)
-    print(tokens)
-    ast = Parser(tokens).parseExpression()
-    Evaluator(ast).evaluate()
+def evaluatorRun(ast):
+    print('evaluating')
+    output = 'Output: '
+    result = Evaluator(ast).evaluate()
+    if result:
+        output += str(result[0])
+    # try:
+    #     result = Evaluator(ast).evaluate()
+    #     if result:
+    #         output += str(result[0])
+    # except Exception as e:
+    #     output += 'Error: ' + str(e)
+    return output
+
+
 
 
 

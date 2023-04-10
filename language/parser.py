@@ -17,7 +17,14 @@ class Parser:
         return node
     
     def parseExpression(self):
-        node = self.expression()
+        try:
+            curr = self.currentToken()
+            node = self.expression()
+        except Exception as e:
+            raiseException('Error parsing token: ' + (str(curr) if curr else 'end of tokens') + "; " + str(e))
+        curr = self.currentToken()
+        if curr:
+            raiseException('Error parsing token: ' + (str(curr) if curr else 'end of tokens') + "; " + 'There are unparsed tokens.')
         return node
     
     def binaryOperator(self, nextOpt, sign):

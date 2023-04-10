@@ -1,15 +1,21 @@
 from language.parser import Parser
 
 
-def parserRun(tokens):
+def parserRun(tokens, expression = False, returnAST = False):
     print('parsing ')
+    output = ''
+    ast = None
     try:
-        output = ''
-        try:
-            output  += Parser(tokens).parse().preorderOutput()
-        except Exception as e:
-            return output + str(e) + '\n'
-        output += '\n'
-        return output
+        if expression:
+            ast = Parser(tokens).parseExpression()  
+        else:
+            ast  = Parser(tokens).parse()
+        output  += ast.preorderOutput()
     except Exception as e:
-        print("Error: ", e)
+        raise Exception(output + str(e) + '\n')
+    output += '\n'
+    if returnAST:
+        return output, ast
+    return output
+
+

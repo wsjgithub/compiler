@@ -1,76 +1,41 @@
-Tokens: 
-LINE: z := 0;
-
-z : IDENTIFIER
-:= : SYMBOL
-0 : NUMBER
-; : SYMBOL
-
-
-LINE: x := 10;
-y := 0;
-while x-y do
-        z := z + y;
-y := y + 1
-endwhile
+LINE: 3*3*3*3+1*34/34+0
 
 
 
-
-x : IDENTIFIER
-:= : SYMBOL
-10 : NUMBER
-; : SYMBOL
-y : IDENTIFIER
-:= : SYMBOL
-0 : NUMBER
-; : SYMBOL
-while : KEYWORD
-x : IDENTIFIER
-- : SYMBOL
-y : IDENTIFIER
-do : KEYWORD
-z : IDENTIFIER
-:= : SYMBOL
-z : IDENTIFIER
-+ : SYMBOL
-y : IDENTIFIER
-; : SYMBOL
-y : IDENTIFIER
-:= : SYMBOL
-y : IDENTIFIER
+TOKENS: 
+3 : NUMBER
+* : SYMBOL
+3 : NUMBER
+* : SYMBOL
+3 : NUMBER
+* : SYMBOL
+3 : NUMBER
 + : SYMBOL
 1 : NUMBER
-endwhile : KEYWORD
+* : SYMBOL
+34 : NUMBER
+/ : SYMBOL
+34 : NUMBER
++ : SYMBOL
+0 : NUMBER
 
 
 AST: 
-;: SYMBOL
-	;: SYMBOL
-		;: SYMBOL
-			:=: SYMBOL
-				z: IDENTIFIER
-				0: NUMBER
-			:=: SYMBOL
-				x: IDENTIFIER
-				10: NUMBER
-		:=: SYMBOL
-			y: IDENTIFIER
-			0: NUMBER
-	while: KEYWORD
-		-: SYMBOL
-			x: IDENTIFIER
-			y: IDENTIFIER
-		;: SYMBOL
-			:=: SYMBOL
-				z: IDENTIFIER
-				+: SYMBOL
-					z: IDENTIFIER
-					y: IDENTIFIER
-			:=: SYMBOL
-				y: IDENTIFIER
-				+: SYMBOL
-					y: IDENTIFIER
-					1: NUMBER
++: SYMBOL
+	+: SYMBOL
+		*: SYMBOL
+			*: SYMBOL
+				*: SYMBOL
+					3: NUMBER
+					3: NUMBER
+				3: NUMBER
+			3: NUMBER
+		/: SYMBOL
+			*: SYMBOL
+				1: NUMBER
+				34: NUMBER
+			34: NUMBER
+	0: NUMBER
 
 
+Output: 82

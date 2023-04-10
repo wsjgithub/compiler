@@ -34,6 +34,7 @@ def scannerRun(line):
         tokens = scanner.scan(line)
         output = ''
         output += ("LINE: " + line+'\n')
+        output += ("TOKENS: \n")
         for token in tokens:
             output += (serializeToken(token)+'\n')
         output += '\n'

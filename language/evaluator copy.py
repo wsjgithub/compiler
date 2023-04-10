@@ -8,9 +8,9 @@ class Evaluator:
         self.root and self.preorder(self.root, stack)
         print('evaluate')
         stack.print()
-        if len(stack) != 1:
-            raise Exception("Expression failed to evaluate.")
-        return stack[0]
+        # if len(stack) != 1:
+        #     raise Exception("Expression failed to evaluate.")
+        return stack.stack[0]
 
     def preorder(self, root, stack):
         stack.append(root)
@@ -20,19 +20,19 @@ class Evaluator:
 
 
 class Stack(list):
-    # def __init__(self):
-    #     self.stack = []
+    def __init__(self):
+        self.stack = []
 
     def append(self, el):
         calculable = True
         el = (el.value, el.type)
-        super().append(el)
-        while len(self) > 0 and calculable:
-            lastThree = self[-3:]
+        self.stack.append(el)
+        while self.stack and calculable:
+            lastThree = self.stack[-3:]
             if self.isCalculable(lastThree):
-                del self[-3:]
+                del self.stack[-3:]
                 result = Calculator.calBinary(*[node[0] for node in lastThree])
-                super().append((result, "NUMBER"))
+                self.stack.append((result, "NUMBER"))
             else:
                 calculable = False
 
@@ -41,10 +41,10 @@ class Stack(list):
         return len(lastThree) == 3 and lastThree[0][1] == "SYMBOL" and lastThree[1][1] == "NUMBER" and lastThree[2][1] == "NUMBER"
 
     def print(self):
-        for item in self:
+        for item in self.stack:
             print(item)
-    # def __len__(self):
-    #     return len(self.stack)
+    def __len__(self):
+        return len(self.stack)
 
 class Calculator:
     def calBinary(operator, num1, num2):
