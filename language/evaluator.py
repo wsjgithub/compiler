@@ -20,9 +20,6 @@ class Evaluator:
 
 
 class Stack(list):
-    # def __init__(self):
-    #     self.stack = []
-
     def append(self, el):
         calculable = True
         el = (el.value, el.type)
@@ -43,8 +40,7 @@ class Stack(list):
     def print(self):
         for item in self:
             print(item)
-    # def __len__(self):
-    #     return len(self.stack)
+
 
 class Calculator:
     def calBinary(operator, num1, num2):
