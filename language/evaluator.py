@@ -1,25 +1,86 @@
+from .asTree import Node
+from .constants import MARKS
 class Evaluator:
     def __init__(self, ast):
-        self.root = ast
+        if ast and ast.value != ';':
+            self.root = Node(';', MARKS['symbol'], ast)
+        else:
+            self.root = ast
+        self.memory = {}
+        self.parent = None
+        self.curr = self.root
     
     def evaluate(self):
-        stack = Stack()
+        while self.root and self.root.left:
+            self.evaluateStatement()
+        print('memoery', self.memory)
+        self.root = None
+        self.parent = None
+        self.curr = None
+
+    def evaluateStatement(self):
         self.root.preorder()
-        self.root and self.preorder(self.root, stack)
-        print('evaluate')
+        while True:
+            if not self.curr:
+                raise Exception('Statement is missing.')
+            if self.curr.value != ';':
+                self.evaluateBaseStatement()
+                if self.parent:
+                    self.parent.left = self.parent.middle
+                    self.parent.middle = None
+                break
+            if not self.curr.left:
+                self.parent.left = self.parent.middle
+                self.parent.middle = None
+                break
+            self.parent = self.curr
+            self.curr = self.curr.left 
+        self.parent = None
+        self.curr = self.root
+        self.root.preorder()
+
+    def evaluateBaseStatement(self):
+        if self.curr.value == ':=':
+            self.evaluateAssignment()
+        elif self.curr.value == 'if':
+            self.evaluateCondition()
+        elif self.curr.value == 'while':
+            self.evaluateLoop()
+        else:
+            raise Exception("Not a valid base statement")
+
+    def evaluateAssignment(self):
+        value = self.evaluateExpression(self.curr.middle)[0]
+        self.memory.setdefault(self.curr.left.value, int(value))
+        # print('memory', self.memory)
+        if self.parent:
+            self.parent.left = None
+        # self.root.preorder()
+
+    def evaluateCondition(self):
+        pass
+    def evaluateLoop(self):
+        pass
+    def evaluateExpression(self, root): 
+        stack = Stack()
+        root.preorder() # print the ast to console. 
+        root and self.preorder(root, stack)
+        print('evaluate expression')
         stack.print()
         if len(stack) != 1:
             raise Exception("Expression failed to evaluate.")
         return stack[0]
 
     def preorder(self, root, stack):
+        # need to resolve an identifier with the memory table
         stack.append(root)
         root.left and self.preorder(root.left, stack)
         root.middle and self.preorder(root.middle, stack)
         root.right and self.preorder(root.right, stack)
 
 
-class Stack(list):
+
+class Stack(list): 
     def append(self, el):
         calculable = True
         el = (el.value, el.type)

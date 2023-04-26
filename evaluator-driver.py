@@ -11,14 +11,20 @@ def run(inputFile):
     #input = '3 * (5 + 10 / 3 - 1)'
     #evaluatorRun(input)
     output = ''
-    try:
-        lineOutput, lineTokens= scannerRun(line)
-        output += lineOutput + '\n'
-        parsedOutput, ast = parserRun(lineTokens, True, True)
-        output += 'AST: \n' + parsedOutput + '\n'
-        output += evaluatorRun(ast)
-    except Exception as e:
-        output += "\n" + str(e)
+    # try:
+    #     lineOutput, lineTokens= scannerRun(line)
+    #     output += lineOutput + '\n'
+    #     parsedOutput, ast = parserRun(lineTokens, False, True)
+    #     output += 'AST: \n' + parsedOutput + '\n'
+    #     output += evaluatorRun(ast)
+    # except Exception as e:
+    #     print(e)
+    #     output += "\n" + str(e)
+    lineOutput, lineTokens= scannerRun(line)
+    output += lineOutput + '\n'
+    parsedOutput, ast = parserRun(lineTokens, False, True)
+    output += 'AST: \n' + parsedOutput + '\n'
+    output += evaluatorRun(ast)
     return output
 
 
