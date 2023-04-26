@@ -63,22 +63,26 @@ class Evaluator:
         pass
     def evaluateExpression(self, root): 
         stack = Stack()
-        root.preorder() # print the ast to console. 
         root and self.preorder(root, stack)
-        print('evaluate expression')
-        stack.print()
         if len(stack) != 1:
             raise Exception("Expression failed to evaluate.")
         return stack[0]
 
     def preorder(self, root, stack):
         # need to resolve an identifier with the memory table
-        stack.append(root)
+        stack.append(self.resolveIdentifier(root))
         root.left and self.preorder(root.left, stack)
         root.middle and self.preorder(root.middle, stack)
         root.right and self.preorder(root.right, stack)
 
-
+    def resolveIdentifier(self, node):
+        if node.type == MARKS['identifier']:
+            try:
+                return Node(self.memory[node.value], MARKS['number'])
+            except KeyError:
+                raise Exception('Accessed an uninitialized identifier.')
+        else:
+            return node
 
 class Stack(list): 
     def append(self, el):
