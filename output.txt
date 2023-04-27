@@ -1,15 +1,17 @@
-LINE: while 0 do
-z := 1
+LINE: while z do
+z := x - 1
 endwhile;
 x := 3
 
 
 TOKENS: 
 while : KEYWORD
-0 : NUMBER
+z : IDENTIFIER
 do : KEYWORD
 z : IDENTIFIER
 := : SYMBOL
+x : IDENTIFIER
+- : SYMBOL
 1 : NUMBER
 endwhile : KEYWORD
 ; : SYMBOL
@@ -21,13 +23,15 @@ x : IDENTIFIER
 AST: 
 ;: SYMBOL
 	while: KEYWORD
-		0: NUMBER
+		z: IDENTIFIER
 		:=: SYMBOL
 			z: IDENTIFIER
-			1: NUMBER
+			-: SYMBOL
+				x: IDENTIFIER
+				1: NUMBER
 	:=: SYMBOL
 		x: IDENTIFIER
 		3: NUMBER
 
 
-Output: {'x': 3}
+Output: Error: Accessed an uninitialized identifier.

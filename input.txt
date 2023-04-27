@@ -1,5 +1,5 @@
 while 0 do
-z := 1
+z := x + 1
 endwhile;
 x := 3
 
