@@ -10,6 +10,7 @@ class Evaluator:
         self.memory = {}
         self.parent = None
         self.curr = self.root
+        self.whileParent = None
     
     def evaluate(self):
         while self.root and self.root.left:
@@ -66,9 +67,14 @@ class Evaluator:
         expr = self.evaluateExpression(condition)
         if expr[0] == 0:
             self.adjustTree()
+            self.whileParent = None
         else:
+            if self.whileParent:
+                self.whileParent.left = self.curr
+                self.whileParent = None
+            else:
+                self.whileParent = self.parent
             self.parent.left = Node(';', MARKS['symbol'], operation, self.curr)
-            self.root.preorder()
 
     def evaluateExpression(self, root): 
         stack = Stack()
@@ -78,6 +84,9 @@ class Evaluator:
         return stack[0]
     
     def adjustTree(self):
+        # if self.whileParent:
+        #     self.whileParent.left = self.parent.right
+        #     return
         if self.parent:
             self.parent.left = self.parent.middle
             self.parent.middle = None
