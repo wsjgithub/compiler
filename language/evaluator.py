@@ -15,29 +15,31 @@ class Evaluator:
     def evaluate(self):
         while self.root and self.root.left:
             self.evaluateStatement()
-            self.root.preorder()
         print('memoery', self.memory)
         self.root = None
         self.parent = None
         self.curr = None
-        return self.memory
 
     def evaluateStatement(self):
+        self.root.preorder()
         while True:
             if not self.curr:
                 raise Exception('Statement is missing.')
             if self.curr.value != ';':
                 self.evaluateBaseStatement()
+                if self.parent:
+                    self.parent.left = self.parent.middle
+                    self.parent.middle = None
                 break
-            if not self.curr.left: # when ; is the left most node
+            if not self.curr.left:
                 self.parent.left = self.parent.middle
                 self.parent.middle = None
                 break
             self.parent = self.curr
             self.curr = self.curr.left 
-
         self.parent = None
         self.curr = self.root
+        self.root.preorder()
 
     def evaluateBaseStatement(self):
         if self.curr.value == ':=':
@@ -51,16 +53,14 @@ class Evaluator:
 
     def evaluateAssignment(self):
         value = self.evaluateExpression(self.curr.middle)[0]
-        self.memory[self.curr.left.value] = int(value)
-        self.adjustTree()
+        self.memory.setdefault(self.curr.left.value, int(value))
+        # print('memory', self.memory)
+        if self.parent:
+            self.parent.left = None
+        # self.root.preorder()
 
     def evaluateCondition(self):
-        condition = self.evaluateExpression(self.curr.left)
-        if condition[0] == 0:
-            self.parent.left = self.curr.right
-        else:
-            self.parent.left = self.curr.middle
-
+        pass
     def evaluateLoop(self):
         condition = self.curr.left
         operation = copy.deepcopy(self.curr.middle)
@@ -92,6 +92,7 @@ class Evaluator:
             self.parent.middle = None
 
     def preorder(self, root, stack):
+        # need to resolve an identifier with the memory table
         stack.append(self.resolveIdentifier(root))
         root.left and self.preorder(root.left, stack)
         root.middle and self.preorder(root.middle, stack)
