@@ -47,6 +47,9 @@ class Evaluator:
             self.evaluateCondition()
         elif self.curr.value == 'while':
             self.evaluateLoop()
+        elif self.curr.value == 'skip':
+            print('skip------')
+            self.evaluateSkip()
         else:
             raise Exception("Not a valid base statement")
 
@@ -82,6 +85,9 @@ class Evaluator:
             raise Exception("Expression failed to evaluate.")
         return stack[0]
     
+    def evaluateSkip(self):
+        self.adjustTree()
+        
     def adjustTree(self):
         if self.parent:
             self.parent.left = self.parent.middle

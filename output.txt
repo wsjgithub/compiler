@@ -1,46 +1,12 @@
-LINE: z := 10;
-if z - 5 then
-x := 1
-else
-x := 5
-endif
+LINE: skip
 
 
 TOKENS: 
-z : IDENTIFIER
-:= : SYMBOL
-10 : NUMBER
-; : SYMBOL
-if : KEYWORD
-z : IDENTIFIER
-- : SYMBOL
-5 : NUMBER
-then : KEYWORD
-x : IDENTIFIER
-:= : SYMBOL
-1 : NUMBER
-else : KEYWORD
-x : IDENTIFIER
-:= : SYMBOL
-5 : NUMBER
-endif : KEYWORD
+skip : KEYWORD
 
 
 AST: 
-;: SYMBOL
-	:=: SYMBOL
-		z: IDENTIFIER
-		10: NUMBER
-	if: KEYWORD
-		-: SYMBOL
-			z: IDENTIFIER
-			5: NUMBER
-		:=: SYMBOL
-			x: IDENTIFIER
-			1: NUMBER
-		:=: SYMBOL
-			x: IDENTIFIER
-			5: NUMBER
+skip: KEYWORD
 
 
 Output: 
