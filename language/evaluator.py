@@ -58,7 +58,11 @@ class Evaluator:
         self.adjustTree()
 
     def evaluateCondition(self):
-        pass
+        condition = self.evaluateExpression(self.curr.left)
+        if condition[0] == 0:
+            self.parent.left = self.curr.right
+        else:
+            self.parent.left = self.curr.middle
     
     def evaluateLoop(self):
         condition = self.curr.left

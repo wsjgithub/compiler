@@ -1,5 +1,7 @@
-z := 0 + 10 - 8;
-while z do
-z := z - 1
-endwhile
+z := 10;
+if z - 5 then
+x := 1
+else
+x := 5
+endif
 

@@ -1,45 +1,46 @@
-LINE: z := 0 + 10 - 8;
-while z do
-z := z - 1
-endwhile
+LINE: z := 10;
+if z - 5 then
+x := 1
+else
+x := 5
+endif
 
 
 TOKENS: 
 z : IDENTIFIER
 := : SYMBOL
-0 : NUMBER
-+ : SYMBOL
 10 : NUMBER
-- : SYMBOL
-8 : NUMBER
 ; : SYMBOL
-while : KEYWORD
-z : IDENTIFIER
-do : KEYWORD
-z : IDENTIFIER
-:= : SYMBOL
+if : KEYWORD
 z : IDENTIFIER
 - : SYMBOL
+5 : NUMBER
+then : KEYWORD
+x : IDENTIFIER
+:= : SYMBOL
 1 : NUMBER
-endwhile : KEYWORD
+else : KEYWORD
+x : IDENTIFIER
+:= : SYMBOL
+5 : NUMBER
+endif : KEYWORD
 
 
 AST: 
 ;: SYMBOL
 	:=: SYMBOL
 		z: IDENTIFIER
-		+: SYMBOL
-			0: NUMBER
-			-: SYMBOL
-				10: NUMBER
-				8: NUMBER
-	while: KEYWORD
-		z: IDENTIFIER
-		:=: SYMBOL
+		10: NUMBER
+	if: KEYWORD
+		-: SYMBOL
 			z: IDENTIFIER
-			-: SYMBOL
-				z: IDENTIFIER
-				1: NUMBER
+			5: NUMBER
+		:=: SYMBOL
+			x: IDENTIFIER
+			1: NUMBER
+		:=: SYMBOL
+			x: IDENTIFIER
+			5: NUMBER
 
 
 Output: 
