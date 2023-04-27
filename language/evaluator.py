@@ -10,26 +10,26 @@ class Evaluator:
         self.memory = {}
         self.parent = None
         self.curr = self.root
-        self.whileParent = None
     
     def evaluate(self):
         while self.root and self.root.left:
             self.evaluateStatement()
+            print('evaluate', self.root, self.root.left)
+            self.root.preorder()
         print('memoery', self.memory)
         self.root = None
         self.parent = None
         self.curr = None
 
     def evaluateStatement(self):
-        self.root.preorder()
         while True:
             if not self.curr:
                 raise Exception('Statement is missing.')
             if self.curr.value != ';':
                 self.evaluateBaseStatement()
-                if self.parent:
-                    self.parent.left = self.parent.middle
-                    self.parent.middle = None
+                # if self.parent:
+                #     self.parent.left = self.parent.middle
+                #     self.parent.middle = None
                 break
             if not self.curr.left:
                 self.parent.left = self.parent.middle
@@ -39,7 +39,6 @@ class Evaluator:
             self.curr = self.curr.left 
         self.parent = None
         self.curr = self.root
-        self.root.preorder()
 
     def evaluateBaseStatement(self):
         if self.curr.value == ':=':
@@ -53,28 +52,24 @@ class Evaluator:
 
     def evaluateAssignment(self):
         value = self.evaluateExpression(self.curr.middle)[0]
-        self.memory.setdefault(self.curr.left.value, int(value))
-        # print('memory', self.memory)
-        if self.parent:
-            self.parent.left = None
-        # self.root.preorder()
+        self.memory[self.curr.left.value] = int(value)
+        # if self.parent:
+        #     self.parent.left = None
+        self.adjustTree()
 
     def evaluateCondition(self):
         pass
+    
     def evaluateLoop(self):
         condition = self.curr.left
         operation = copy.deepcopy(self.curr.middle)
         expr = self.evaluateExpression(condition)
+        print('expr', expr)
         if expr[0] == 0:
             self.adjustTree()
-            self.whileParent = None
         else:
-            if self.whileParent:
-                self.whileParent.left = self.curr
-                self.whileParent = None
-            else:
-                self.whileParent = self.parent
             self.parent.left = Node(';', MARKS['symbol'], operation, self.curr)
+        self.root.preorder()
 
     def evaluateExpression(self, root): 
         stack = Stack()
@@ -84,9 +79,6 @@ class Evaluator:
         return stack[0]
     
     def adjustTree(self):
-        # if self.whileParent:
-        #     self.whileParent.left = self.parent.right
-        #     return
         if self.parent:
             self.parent.left = self.parent.middle
             self.parent.middle = None
