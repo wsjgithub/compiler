@@ -1,27 +1,15 @@
-LINE: x := 6;
-z := 4;
-while z do
-z := z - 1
+LINE: while 0 do
+z := 1
 endwhile;
 x := 3
 
 
 TOKENS: 
-x : IDENTIFIER
-:= : SYMBOL
-6 : NUMBER
-; : SYMBOL
-z : IDENTIFIER
-:= : SYMBOL
-4 : NUMBER
-; : SYMBOL
 while : KEYWORD
-z : IDENTIFIER
+0 : NUMBER
 do : KEYWORD
 z : IDENTIFIER
 := : SYMBOL
-z : IDENTIFIER
-- : SYMBOL
 1 : NUMBER
 endwhile : KEYWORD
 ; : SYMBOL
@@ -32,21 +20,11 @@ x : IDENTIFIER
 
 AST: 
 ;: SYMBOL
-	;: SYMBOL
-		;: SYMBOL
-			:=: SYMBOL
-				x: IDENTIFIER
-				6: NUMBER
-			:=: SYMBOL
-				z: IDENTIFIER
-				4: NUMBER
-		while: KEYWORD
+	while: KEYWORD
+		0: NUMBER
+		:=: SYMBOL
 			z: IDENTIFIER
-			:=: SYMBOL
-				z: IDENTIFIER
-				-: SYMBOL
-					z: IDENTIFIER
-					1: NUMBER
+			1: NUMBER
 	:=: SYMBOL
 		x: IDENTIFIER
 		3: NUMBER

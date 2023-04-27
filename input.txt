@@ -1,7 +1,5 @@
-x := 6;
-z := 4;
-while z do
-z := z - 1
+while 0 do
+z := 1
 endwhile;
 x := 3
 

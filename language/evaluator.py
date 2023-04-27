@@ -71,7 +71,7 @@ class Evaluator:
         condition = self.curr.left
         operation = copy.deepcopy(self.curr.middle)
         expr = self.evaluateExpression(condition)
-        if expr[0] == 0:
+        if int(expr[0]) == 0:
             self.adjustTree()
         else:
             if self.parent.middle:
