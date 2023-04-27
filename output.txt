@@ -30,4 +30,4 @@ AST:
 		3: NUMBER
 
 
-Output: 
+Output: {'x': 3}

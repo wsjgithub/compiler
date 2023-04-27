@@ -21,6 +21,7 @@ class Evaluator:
         self.root = None
         self.parent = None
         self.curr = None
+        return self.memory
 
     def evaluateStatement(self):
         while True:
