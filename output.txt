@@ -1,12 +1,43 @@
-LINE: skip
+LINE: if 10 then
+x := 1;
+skip
+else 
+skip;
+x := 12
+endif
 
 
 TOKENS: 
+if : KEYWORD
+10 : NUMBER
+then : KEYWORD
+x : IDENTIFIER
+:= : SYMBOL
+1 : NUMBER
+; : SYMBOL
 skip : KEYWORD
+else : KEYWORD
+skip : KEYWORD
+; : SYMBOL
+x : IDENTIFIER
+:= : SYMBOL
+12 : NUMBER
+endif : KEYWORD
 
 
 AST: 
-skip: KEYWORD
+if: KEYWORD
+	10: NUMBER
+	;: SYMBOL
+		:=: SYMBOL
+			x: IDENTIFIER
+			1: NUMBER
+		skip: KEYWORD
+	;: SYMBOL
+		skip: KEYWORD
+		:=: SYMBOL
+			x: IDENTIFIER
+			12: NUMBER
 
 
 Output: 

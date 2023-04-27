@@ -12,6 +12,7 @@ class Evaluator:
         self.curr = self.root
     
     def evaluate(self):
+        self.root.preorder()
         while self.root and self.root.left:
             self.evaluateStatement()
             print('evaluate', self.root, self.root.left)
@@ -62,7 +63,8 @@ class Evaluator:
 
     def evaluateCondition(self):
         condition = self.evaluateExpression(self.curr.left)
-        if condition[0] == 0:
+        print('condition', condition)
+        if int(condition[0]) == 0:
             self.parent.left = self.curr.right
         else:
             self.parent.left = self.curr.middle
@@ -87,7 +89,7 @@ class Evaluator:
     
     def evaluateSkip(self):
         self.adjustTree()
-        
+
     def adjustTree(self):
         if self.parent:
             self.parent.left = self.parent.middle
