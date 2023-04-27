@@ -49,7 +49,6 @@ class Evaluator:
         elif self.curr.value == 'while':
             self.evaluateLoop()
         elif self.curr.value == 'skip':
-            print('skip------')
             self.evaluateSkip()
         else:
             raise Exception("Not a valid base statement")
@@ -63,7 +62,6 @@ class Evaluator:
 
     def evaluateCondition(self):
         condition = self.evaluateExpression(self.curr.left)
-        print('condition', condition)
         if int(condition[0]) == 0:
             self.parent.left = self.curr.right
         else:
@@ -73,12 +71,15 @@ class Evaluator:
         condition = self.curr.left
         operation = copy.deepcopy(self.curr.middle)
         expr = self.evaluateExpression(condition)
-        print('expr', expr)
         if expr[0] == 0:
             self.adjustTree()
         else:
-            self.parent.left = Node(';', MARKS['symbol'], operation, self.curr)
-        self.root.preorder()
+            if self.parent.middle:
+                self.parent.left = Node(';', MARKS['symbol'], operation, self.curr)
+            else:
+                self.parent.middle = self.curr
+                self.parent.left = operation
+        # self.root.preorder()
 
     def evaluateExpression(self, root): 
         stack = Stack()

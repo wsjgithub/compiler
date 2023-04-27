@@ -1,8 +1,7 @@
-if 10 then
-x := 1;
-skip
-else 
-skip;
-x := 12
-endif
+x := 6;
+z := 4;
+while z do
+z := z - 1
+endwhile;
+x := 3
 

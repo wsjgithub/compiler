@@ -1,43 +1,55 @@
-LINE: if 10 then
-x := 1;
-skip
-else 
-skip;
-x := 12
-endif
+LINE: x := 6;
+z := 4;
+while z do
+z := z - 1
+endwhile;
+x := 3
 
 
 TOKENS: 
-if : KEYWORD
-10 : NUMBER
-then : KEYWORD
 x : IDENTIFIER
 := : SYMBOL
+6 : NUMBER
+; : SYMBOL
+z : IDENTIFIER
+:= : SYMBOL
+4 : NUMBER
+; : SYMBOL
+while : KEYWORD
+z : IDENTIFIER
+do : KEYWORD
+z : IDENTIFIER
+:= : SYMBOL
+z : IDENTIFIER
+- : SYMBOL
 1 : NUMBER
-; : SYMBOL
-skip : KEYWORD
-else : KEYWORD
-skip : KEYWORD
+endwhile : KEYWORD
 ; : SYMBOL
 x : IDENTIFIER
 := : SYMBOL
-12 : NUMBER
-endif : KEYWORD
+3 : NUMBER
 
 
 AST: 
-if: KEYWORD
-	10: NUMBER
+;: SYMBOL
 	;: SYMBOL
-		:=: SYMBOL
-			x: IDENTIFIER
-			1: NUMBER
-		skip: KEYWORD
-	;: SYMBOL
-		skip: KEYWORD
-		:=: SYMBOL
-			x: IDENTIFIER
-			12: NUMBER
+		;: SYMBOL
+			:=: SYMBOL
+				x: IDENTIFIER
+				6: NUMBER
+			:=: SYMBOL
+				z: IDENTIFIER
+				4: NUMBER
+		while: KEYWORD
+			z: IDENTIFIER
+			:=: SYMBOL
+				z: IDENTIFIER
+				-: SYMBOL
+					z: IDENTIFIER
+					1: NUMBER
+	:=: SYMBOL
+		x: IDENTIFIER
+		3: NUMBER
 
 
 Output: 
