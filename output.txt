@@ -1,0 +1,94 @@
+LINE: z := 0 + 10 - 8;
+x := 10;
+if z + 2
+then 
+while x do
+x := x - 1;
+    while z do
+        z := z - 1
+    endwhile
+endwhile
+else x := 5
+endif
+TOKENS: 
+z : IDENTIFIER
+:= : SYMBOL
+0 : NUMBER
++ : SYMBOL
+10 : NUMBER
+- : SYMBOL
+8 : NUMBER
+; : SYMBOL
+x : IDENTIFIER
+:= : SYMBOL
+10 : NUMBER
+; : SYMBOL
+if : KEYWORD
+z : IDENTIFIER
++ : SYMBOL
+2 : NUMBER
+then : KEYWORD
+while : KEYWORD
+x : IDENTIFIER
+do : KEYWORD
+x : IDENTIFIER
+:= : SYMBOL
+x : IDENTIFIER
+- : SYMBOL
+1 : NUMBER
+; : SYMBOL
+while : KEYWORD
+z : IDENTIFIER
+do : KEYWORD
+z : IDENTIFIER
+:= : SYMBOL
+z : IDENTIFIER
+- : SYMBOL
+1 : NUMBER
+endwhile : KEYWORD
+endwhile : KEYWORD
+else : KEYWORD
+x : IDENTIFIER
+:= : SYMBOL
+5 : NUMBER
+endif : KEYWORD
+
+
+AST: 
+;: SYMBOL
+	;: SYMBOL
+		:=: SYMBOL
+			z: IDENTIFIER
+			+: SYMBOL
+				0: NUMBER
+				-: SYMBOL
+					10: NUMBER
+					8: NUMBER
+		:=: SYMBOL
+			x: IDENTIFIER
+			10: NUMBER
+	if: KEYWORD
+		+: SYMBOL
+			z: IDENTIFIER
+			2: NUMBER
+		while: KEYWORD
+			x: IDENTIFIER
+			;: SYMBOL
+				:=: SYMBOL
+					x: IDENTIFIER
+					-: SYMBOL
+						x: IDENTIFIER
+						1: NUMBER
+				while: KEYWORD
+					z: IDENTIFIER
+					:=: SYMBOL
+						z: IDENTIFIER
+						-: SYMBOL
+							z: IDENTIFIER
+							1: NUMBER
+		:=: SYMBOL
+			x: IDENTIFIER
+			5: NUMBER
+
+
+Output: {'z': 0, 'x': 0}

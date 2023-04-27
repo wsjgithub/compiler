@@ -5,7 +5,7 @@ def evaluatorRun(ast):
     output = 'Output: '
     result = Evaluator(ast).evaluate()
     if result:
-        output += str(result[0])
+        output += str(result)
     # try:
     #     result = Evaluator(ast).evaluate()
     #     if result:

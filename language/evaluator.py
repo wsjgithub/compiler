@@ -1,5 +1,6 @@
 from .asTree import Node
 from .constants import MARKS
+import copy
 class Evaluator:
     def __init__(self, ast):
         if ast and ast.value != ';':
@@ -13,31 +14,29 @@ class Evaluator:
     def evaluate(self):
         while self.root and self.root.left:
             self.evaluateStatement()
+            self.root.preorder()
         print('memoery', self.memory)
         self.root = None
         self.parent = None
         self.curr = None
+        return self.memory
 
     def evaluateStatement(self):
-        self.root.preorder()
         while True:
             if not self.curr:
                 raise Exception('Statement is missing.')
             if self.curr.value != ';':
                 self.evaluateBaseStatement()
-                if self.parent:
-                    self.parent.left = self.parent.middle
-                    self.parent.middle = None
                 break
-            if not self.curr.left:
+            if not self.curr.left: # when ; is the left most node
                 self.parent.left = self.parent.middle
                 self.parent.middle = None
                 break
             self.parent = self.curr
             self.curr = self.curr.left 
+
         self.parent = None
         self.curr = self.root
-        self.root.preorder()
 
     def evaluateBaseStatement(self):
         if self.curr.value == ':=':
@@ -51,25 +50,39 @@ class Evaluator:
 
     def evaluateAssignment(self):
         value = self.evaluateExpression(self.curr.middle)[0]
-        self.memory.setdefault(self.curr.left.value, int(value))
-        # print('memory', self.memory)
-        if self.parent:
-            self.parent.left = None
-        # self.root.preorder()
+        self.memory[self.curr.left.value] = int(value)
+        self.adjustTree()
 
     def evaluateCondition(self):
-        pass
+        condition = self.evaluateExpression(self.curr.left)
+        if condition[0] == 0:
+            self.parent.left = self.curr.right
+        else:
+            self.parent.left = self.curr.middle
+
     def evaluateLoop(self):
-        pass
+        condition = self.curr.left
+        operation = copy.deepcopy(self.curr.middle)
+        expr = self.evaluateExpression(condition)
+        if expr[0] == 0:
+            self.adjustTree()
+        else:
+            self.parent.left = Node(';', MARKS['symbol'], operation, self.curr)
+            self.root.preorder()
+
     def evaluateExpression(self, root): 
         stack = Stack()
         root and self.preorder(root, stack)
         if len(stack) != 1:
             raise Exception("Expression failed to evaluate.")
         return stack[0]
+    
+    def adjustTree(self):
+        if self.parent:
+            self.parent.left = self.parent.middle
+            self.parent.middle = None
 
     def preorder(self, root, stack):
-        # need to resolve an identifier with the memory table
         stack.append(self.resolveIdentifier(root))
         root.left and self.preorder(root.left, stack)
         root.middle and self.preorder(root.middle, stack)

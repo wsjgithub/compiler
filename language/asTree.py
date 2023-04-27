@@ -1,3 +1,4 @@
+import copy
 class Node:
     def __init__(self, value, type = None, left = None, middle = None, right = None):
         self.value = value
@@ -12,7 +13,6 @@ class Node:
             return output + '\n'
         else:
             print(output)
-
     
     def preorder(self, indent = 0):
         self.print(indent)
@@ -43,7 +43,7 @@ class Node:
         self.right = right
     
     def __str__(self):
-        return self.value
+        return str(self.value)
 
 class Tree:
     def __init__(self, root):
