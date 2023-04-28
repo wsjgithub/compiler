@@ -1,37 +1,168 @@
-LINE: while z do
-z := x - 1
+LINE: z := 2;
+x := 4;
+y := 0;
+while x do
+    z := z - 1;
+    
+    if z
+    then skip
+    else x := 0
+    endif
+
 endwhile;
-x := 3
+a := 0;
+if x 
+    then skip
+    else 
+    x := 4;
+    while x do
+        x := x -1;
+        a := b + x;
+        if x - 2 
+            then skip
+            else y := 4
+        endif
+    endwhile
+endif
 
 
 TOKENS: 
-while : KEYWORD
 z : IDENTIFIER
+:= : SYMBOL
+2 : NUMBER
+; : SYMBOL
+x : IDENTIFIER
+:= : SYMBOL
+4 : NUMBER
+; : SYMBOL
+y : IDENTIFIER
+:= : SYMBOL
+0 : NUMBER
+; : SYMBOL
+while : KEYWORD
+x : IDENTIFIER
 do : KEYWORD
 z : IDENTIFIER
+:= : SYMBOL
+z : IDENTIFIER
+- : SYMBOL
+1 : NUMBER
+; : SYMBOL
+if : KEYWORD
+z : IDENTIFIER
+then : KEYWORD
+skip : KEYWORD
+else : KEYWORD
+x : IDENTIFIER
+:= : SYMBOL
+0 : NUMBER
+endif : KEYWORD
+endwhile : KEYWORD
+; : SYMBOL
+a : IDENTIFIER
+:= : SYMBOL
+0 : NUMBER
+; : SYMBOL
+if : KEYWORD
+x : IDENTIFIER
+then : KEYWORD
+skip : KEYWORD
+else : KEYWORD
+x : IDENTIFIER
+:= : SYMBOL
+4 : NUMBER
+; : SYMBOL
+while : KEYWORD
+x : IDENTIFIER
+do : KEYWORD
+x : IDENTIFIER
 := : SYMBOL
 x : IDENTIFIER
 - : SYMBOL
 1 : NUMBER
-endwhile : KEYWORD
 ; : SYMBOL
-x : IDENTIFIER
+a : IDENTIFIER
 := : SYMBOL
-3 : NUMBER
+b : IDENTIFIER
++ : SYMBOL
+x : IDENTIFIER
+; : SYMBOL
+if : KEYWORD
+x : IDENTIFIER
+- : SYMBOL
+2 : NUMBER
+then : KEYWORD
+skip : KEYWORD
+else : KEYWORD
+y : IDENTIFIER
+:= : SYMBOL
+4 : NUMBER
+endif : KEYWORD
+endwhile : KEYWORD
+endif : KEYWORD
 
 
 AST: 
 ;: SYMBOL
-	while: KEYWORD
-		z: IDENTIFIER
-		:=: SYMBOL
-			z: IDENTIFIER
-			-: SYMBOL
+	;: SYMBOL
+		;: SYMBOL
+			;: SYMBOL
+				;: SYMBOL
+					:=: SYMBOL
+						z: IDENTIFIER
+						2: NUMBER
+					:=: SYMBOL
+						x: IDENTIFIER
+						4: NUMBER
+				:=: SYMBOL
+					y: IDENTIFIER
+					0: NUMBER
+			while: KEYWORD
 				x: IDENTIFIER
-				1: NUMBER
-	:=: SYMBOL
+				;: SYMBOL
+					:=: SYMBOL
+						z: IDENTIFIER
+						-: SYMBOL
+							z: IDENTIFIER
+							1: NUMBER
+					if: KEYWORD
+						z: IDENTIFIER
+						skip: KEYWORD
+						:=: SYMBOL
+							x: IDENTIFIER
+							0: NUMBER
+		:=: SYMBOL
+			a: IDENTIFIER
+			0: NUMBER
+	if: KEYWORD
 		x: IDENTIFIER
-		3: NUMBER
+		skip: KEYWORD
+		;: SYMBOL
+			:=: SYMBOL
+				x: IDENTIFIER
+				4: NUMBER
+			while: KEYWORD
+				x: IDENTIFIER
+				;: SYMBOL
+					;: SYMBOL
+						:=: SYMBOL
+							x: IDENTIFIER
+							-: SYMBOL
+								x: IDENTIFIER
+								1: NUMBER
+						:=: SYMBOL
+							a: IDENTIFIER
+							+: SYMBOL
+								b: IDENTIFIER
+								x: IDENTIFIER
+					if: KEYWORD
+						-: SYMBOL
+							x: IDENTIFIER
+							2: NUMBER
+						skip: KEYWORD
+						:=: SYMBOL
+							y: IDENTIFIER
+							4: NUMBER
 
 
 Output: Error: Accessed an uninitialized identifier.

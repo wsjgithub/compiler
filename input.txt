@@ -1,5 +1,27 @@
-while 0 do
-z := x + 1
+z := 2;
+x := 4;
+y := 0;
+while x do
+    z := z - 1;
+    
+    if z
+    then skip
+    else x := 0
+    endif
+
 endwhile;
-x := 3
+a := 0;
+if x 
+    then skip
+    else 
+    x := 4;
+    while x do
+        x := x -1;
+        a := b + x;
+        if x - 2 
+            then skip
+            else y := 4
+        endif
+    endwhile
+endif
 
